@@ -231,7 +231,7 @@ export const Globals: GlobalVariables = {
 
     runeSum: 0,
 
-    shopConfirmation: true,
+    shopConfirmation: false,
     shopBuyMax: false,
 
     globalAntMult: new Decimal("1"),
@@ -428,7 +428,7 @@ export const Globals: GlobalVariables = {
     upgradeMultiplier: 1,
 
     historyCountMax: 20,
-    
+
     isEvent: false,
 
     // talismanResourceObtainiumCosts: [1e13, 1e14, 1e16, 1e18, 1e20, 1e22, 1e24]

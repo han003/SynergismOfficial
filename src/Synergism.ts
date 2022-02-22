@@ -13,7 +13,7 @@ import { calculateHypercubeBlessings } from './Hypercubes';
 import { calculateTesseractBlessings } from './Tesseracts';
 import { calculateCubeBlessings, calculateObtainium, calculateAnts, calculateRuneLevels, calculateOffline, calculateSigmoidExponential, calculateCorruptionPoints, calculateTotalCoinOwned, calculateTotalAcceleratorBoost, dailyResetCheck, calculateOfferings, calculateAcceleratorMultiplier, calculateTimeAcceleration, eventCheck, exitOffline } from './Calculate';
 import { updateTalismanAppearance, toggleTalismanBuy, updateTalismanInventory, buyTalismanEnhance, buyTalismanLevels } from './Talismans';
-import { toggleAscStatPerSecond, toggleAntMaxBuy, toggleAntAutoSacrifice, toggleChallenges, toggleauto, toggleAutoChallengeModeText, toggleShops } from './Toggles';
+import {toggleAscStatPerSecond, toggleAntMaxBuy, toggleAntAutoSacrifice, toggleChallenges, toggleauto, toggleAutoChallengeModeText, toggleShops, toggleShopConfirmation} from './Toggles';
 import { c15RewardUpdate } from './Statistics';
 import { resetHistoryRenderAllTables } from './History';
 import { calculatePlatonicBlessings } from './PlatonicCubes';
@@ -42,6 +42,8 @@ import { DOMCacheGetOrSet } from './Cache/DOM';
 import localforage from 'localforage';
 import { singularityData, SingularityUpgrade } from './singularity';
 import { PlayerSave } from './types/LegacySynergism';
+
+toggleShopConfirmation(false);
 
 /**
  * Whether or not the current version is a testing version or a main version.
@@ -685,7 +687,7 @@ export const saveSynergy = async (button?: boolean) => {
     player.loaded1009hotfix1 = true;
 
     // shallow hold, doesn't modify OG object nor is affected by modifications to OG
-    const p = Object.assign({}, player, { 
+    const p = Object.assign({}, player, {
         codes: Array.from(player.codes),
         worlds: Number(player.worlds),
         wowCubes: Number(player.wowCubes),
@@ -916,11 +918,11 @@ const loadSynergy = async () => {
 
         //const shop = data.shopUpgrades as LegacyShopUpgrades & Player['shopUpgrades'];
         if (
-            data.achievements?.[169] === undefined || 
-            typeof player.achievements[169] === 'undefined' || 
-        //    (shop.antSpeed === undefined && shop.antSpeedLevel === undefined) || 
-        //    (shop.antSpeed === undefined && typeof shop.antSpeedLevel === 'undefined') || 
-            data.loaded1010 === undefined || 
+            data.achievements?.[169] === undefined ||
+            typeof player.achievements[169] === 'undefined' ||
+        //    (shop.antSpeed === undefined && shop.antSpeedLevel === undefined) ||
+        //    (shop.antSpeed === undefined && typeof shop.antSpeedLevel === 'undefined') ||
+            data.loaded1010 === undefined ||
             data.loaded1010 === false
         ) {
             player.loaded1010 = true;
@@ -1429,7 +1431,7 @@ const loadSynergy = async () => {
 }
 
 // Bad browsers (like Safari) only recently implemented this.
-// 
+//
 const supportsFormatToParts = typeof (Intl.NumberFormat.prototype as Intl.NumberFormat).formatToParts === 'function';
 
 // In some browsers, this will return an empty-1 length array (?), causing a "TypeError: Cannot read property 'value' of undefined"
@@ -1473,28 +1475,28 @@ const padEvery = (str: string, places = 3) => {
  * @param long dictates whether or not a given number displays as scientific at 1,000,000. This auto defaults to short if input >= 1e13
  */
 export const format = (
-    input: Decimal | number | { [Symbol.toPrimitive]: unknown } | null | undefined, 
-    accuracy = 0, 
+    input: Decimal | number | { [Symbol.toPrimitive]: unknown } | null | undefined,
+    accuracy = 0,
     long = false,
     truncate = true
 ): string => {
     if (input == null) return `0 [NaN]`;
 
     if (
-        typeof input === 'object' && 
+        typeof input === 'object' &&
         Symbol.toPrimitive in input
     ) {
         input = Number(input);
     }
 
     if ( // invalid parameter
-        !(input instanceof Decimal) && 
-        typeof input !== 'number' || 
+        !(input instanceof Decimal) &&
+        typeof input !== 'number' ||
         isNaN(input as number)
     )
         return '0 [und.]';
     else if ( // this case handles numbers less than 1e-6 and greater than 0
-        typeof input === 'number' && 
+        typeof input === 'number' &&
         input < 1e-3 && // arbitrary number, can be changed
         input > 0 // don't handle negative numbers, probably could be removed
     )
@@ -1553,7 +1555,7 @@ export const format = (
         const frontFormatted = padEvery(front);
 
         // if the back is undefined that means there are no decimals to display, return just the front
-        return !back 
+        return !back
             ? frontFormatted
             : `${frontFormatted}${dec}${back}`;
     } else if (power < 1e6) {
@@ -1568,11 +1570,11 @@ export const format = (
         if (!Number.isFinite(power)) {
             return 'Infinity';
         }
-        
+
         // if the power is greater than 1e6 apply notation scientific notation
         // Makes mantissa be rounded down to 2 decimal places
         const mantissaLook = testing && truncate ? '' : (Math.floor(mantissa * 100) / 100).toLocaleString(undefined, locOpts);
-        
+
         // Drops the power down to 4 digits total but never greater than 1000 in increments that equate to notations, (1234000 -> 1.234) ( 12340000 -> 12.34) (123400000 -> 123.4) (1234000000 -> 1.234)
         const powerDigits = Math.ceil(Math.log10(power));
         let powerFront = ((powerDigits - 1) % 3) + 1;
@@ -1634,7 +1636,7 @@ export const format = (
         if (power < 1e54) {
             return `${mantissaLook}e${powerLookF}AAAA`;
         }
-        
+
         // If it doesn't fit a notation then default to mantissa e power
         return `${mantissa}e${power}`;
     } else {
@@ -1652,7 +1654,7 @@ export const formatTimeShort = (seconds: number, msMaxSeconds?: number): string 
 
 export const updateAllTick = (): void => {
     let a = 0;
-    
+
     G['totalAccelerator'] = player.acceleratorBought;
     G['costDivisor'] = 1;
 
@@ -1718,7 +1720,7 @@ export const updateAllTick = (): void => {
         a += Math.floor(Math.pow(G['rune1level'] * G['effectiveLevelMult'] / 4, 1.25));
         a *= (1 + G['rune1level'] * 1 / 400 * G['effectiveLevelMult']);
     }
-    
+
     calculateAcceleratorMultiplier();
     a *= G['acceleratorMultiplier']
     a = Math.pow(a, Math.min(1, (1 + player.platonicUpgrades[6] / 30) * G['maladaptivePower'][player.usedCorruptions[2]]))
@@ -1738,9 +1740,9 @@ export const updateAllTick = (): void => {
     }
 
     G['acceleratorPower'] = Math.pow(
-        1.1 + G['tuSevenMulti'] * 
-        (G['totalAcceleratorBoost'] / 100) 
-        * (1 + CalcECC('transcend', player.challengecompletions[2]) / 20), 
+        1.1 + G['tuSevenMulti'] *
+        (G['totalAcceleratorBoost'] / 100)
+        * (1 + CalcECC('transcend', player.challengecompletions[2]) / 20),
         1 + 0.04 * CalcECC('reincarnation', player.challengecompletions[7])
     );
     G['acceleratorPower'] += 1 / 200 * Math.floor(CalcECC('transcend', player.challengecompletions[2]) / 2) * 100 / 100
@@ -1761,10 +1763,10 @@ export const updateAllTick = (): void => {
             G['acceleratorPower'] = 1;
         }
         if (player.currentChallenge.transcension === 3) {
-            G['acceleratorPower'] = 
-                1.05 + 
-                2 * G['tuSevenMulti'] * 
-                (G['totalAcceleratorBoost'] / 300) * 
+            G['acceleratorPower'] =
+                1.05 +
+                2 * G['tuSevenMulti'] *
+                (G['totalAcceleratorBoost'] / 300) *
                 (1 + CalcECC('transcend', player.challengecompletions[2]) / 20
             );
         }
@@ -1868,7 +1870,7 @@ export const updateAllMultiplier = (): void => {
 
     if (player.achievements[38] > 0.5) {
         a += Math.floor(Math.floor(
-            G['rune2level'] / 10 * G['effectiveLevelMult']) * 
+            G['rune2level'] / 10 * G['effectiveLevelMult']) *
             Math.floor(1 + G['rune2level'] / 10 * G['effectiveLevelMult']) / 2
         ) * 100 / 100;
     }
@@ -1965,13 +1967,13 @@ export const multipliers = (): void => {
         c7 = 0
     }
 
-    G['buildingPower'] = 
+    G['buildingPower'] =
         1 + (1 - Math.pow(2, -1 / 160)) * c7 * Decimal.log(
-            player.reincarnationShards.add(1), 10) * 
-            (1 + 1 / 20 * player.researches[36] + 
-            1 / 40 * player.researches[37] + 1 / 40 * 
-            player.researches[38]) + 
-            (c7 + 0.2) * 0.25 / 1.2 * 
+            player.reincarnationShards.add(1), 10) *
+            (1 + 1 / 20 * player.researches[36] +
+            1 / 40 * player.researches[37] + 1 / 40 *
+            player.researches[38]) +
+            (c7 + 0.2) * 0.25 / 1.2 *
             CalcECC('reincarnation', player.challengecompletions[8]
         );
 
@@ -2423,7 +2425,7 @@ export const resourceGain = (dt: number): void => {
     const reinchal = player.currentChallenge.reincarnation;
     const ascendchal = player.currentChallenge.ascension;
     if (chal !== 0) {
-        if (player.coinsThisTranscension.gte(challengeRequirement(chal, player.challengecompletions[chal], chal))) { 
+        if (player.coinsThisTranscension.gte(challengeRequirement(chal, player.challengecompletions[chal], chal))) {
             void resetCheck('transcensionChallenge', false);
             G['autoChallengeTimerIncrement'] = 0;
         }
@@ -2841,7 +2843,7 @@ export const resetConfirmation = async (i: string): Promise<void> => {
         }
     }
     if (i === 'ascend') {
-        const z = !player.toggles[31] || 
+        const z = !player.toggles[31] ||
                   await Confirm("Ascending will reset all buildings, rune levels [NOT CAP!], talismans, most researches, and the anthill feature for Cubes of Power. Continue? [It is strongly advised you get R5x24 first.]")
         if (z) {
             reset("ascension");
@@ -3447,7 +3449,7 @@ document.addEventListener('keydown', (event) => {
 
 /**
  * Reloads shit.
- * @param reset if this param is passed, offline progression will not be calculated. 
+ * @param reset if this param is passed, offline progression will not be calculated.
  */
 export const reloadShit = async (reset = false) => {
     for (const timer of intervalHold)
@@ -3455,7 +3457,7 @@ export const reloadShit = async (reset = false) => {
 
     intervalHold.clear();
 
-    const save = 
+    const save =
         await localforage.getItem<string>('Synergysave2') ??
         await Promise.resolve(localStorage.getItem('Synergysave2'));
 
@@ -3526,12 +3528,12 @@ export const reloadShit = async (reset = false) => {
 window.addEventListener('load', () => {
     const ver = DOMCacheGetOrSet('versionnumber');
     if (ver instanceof HTMLElement) {
-        ver.textContent = 
+        ver.textContent =
             `You're ${testing ? 'testing' : 'playing'} v${version} - Seal of the Merchant` +
-            ` [Last Update: ${lastUpdated.getHours()}:${lastUpdated.getMinutes()} UTC ${lastUpdated.getDate()}-${lastUpdated.toLocaleString('en-us', {month: 'short'})}-${lastUpdated.getFullYear()}].` + 
+            ` [Last Update: ${lastUpdated.getHours()}:${lastUpdated.getMinutes()} UTC ${lastUpdated.getDate()}-${lastUpdated.toLocaleString('en-us', {month: 'short'})}-${lastUpdated.getFullYear()}].` +
             ` ${testing ? 'Savefiles cannot be used in live!' : ''}`;
     }
-    document.title = `Synergism v${version}`;
+    document.title = `Han003 - Synergism v${version}`;
 
     generateEventHandlers();
 

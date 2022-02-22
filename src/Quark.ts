@@ -17,7 +17,7 @@ const getBonus = async (): Promise<null | number> => {
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
-        
+
         const t = await r.json() as { files: Record<string, { content: string }> };
         const b = Number(t.files['SynergismQuarkBoost.txt'].content);
 
@@ -67,7 +67,7 @@ export const getQuarkMultiplier = () => {
         multiplier *= (1 + 5/10000 * hepteractEffective('quark'));
     }
     if (player.overfluxPowder > 0) { // Overflux Powder [Max: 10% at 10,000]
-        multiplier *= calculateQuarkMultFromPowder();      
+        multiplier *= calculateQuarkMultFromPowder();
     }
     if (player.achievements[266] > 0) { // Achievement 266 [Max: 10% at 1Qa Ascensions]
         multiplier *= (1 + Math.min(0.1, (player.ascensionCount) / 1e16))
@@ -125,7 +125,7 @@ export class QuarkHandler {
     /** Global quark bonus */
     public BONUS = 0;
     /** Quark amount */
-    private QUARKS = 0;
+    QUARKS = 0;
 
     private static interval: ReturnType<typeof setInterval> | null = null;
 
@@ -167,7 +167,7 @@ export class QuarkHandler {
             const { bonus, fetched } = JSON.parse(localStorage.getItem('quarkBonus')!) as { bonus: number, fetched: number };
             if (Date.now() - fetched < 60 * 1000 * 15) { // cache is younger than 15 minutes
                 console.log(
-                    `%c \tBonus of ${bonus}% quarks has been applied! \n\t(Cached at ${fetched})`, 
+                    `%c \tBonus of ${bonus}% quarks has been applied! \n\t(Cached at ${fetched})`,
                     'color:gold; font-size:60px; font-weight:bold; font-family:helvetica;'
                 );
                 el.textContent = `Generous patrons give you a bonus of ${bonus}% more quarks!`
@@ -183,7 +183,7 @@ export class QuarkHandler {
 
         if (b === null) {
             return;
-        } else if (Number.isNaN(b) || typeof b !== 'number') 
+        } else if (Number.isNaN(b) || typeof b !== 'number')
             return Alert(`No bonus could be applied, a network error occurred! [Invalid Bonus] :(`);
         else if (!Number.isFinite(b))
             return Alert('No bonus could be applied, an error occurred. [Infinity] :(');

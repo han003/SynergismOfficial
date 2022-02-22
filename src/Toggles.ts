@@ -14,14 +14,14 @@ import { DOMCacheGetOrSet } from './Cache/DOM';
 
 type TabValue = { tabName: keyof typeof tabNumberConst, unlocked: boolean };
 type Tab = Record<number, TabValue>;
-type SubTab = Record<number, { 
+type SubTab = Record<number, {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    tabSwitcher?: (...args: any[]) => void, 
-    subTabList: { 
-        subTabID: string | number | boolean, 
+    tabSwitcher?: (...args: any[]) => void,
+    subTabList: {
+        subTabID: string | number | boolean,
         unlocked: boolean,
         buttonID?: string
-    }[] 
+    }[]
 }>
 
 const tabNumberConst = {
@@ -45,7 +45,7 @@ export const toggleTabs = (name: keyof typeof tabNumberConst) => {
 
     revealStuff();
     hideStuff();
-    
+
     const subTabList = subTabsInMainTab(player.tabnumber).subTabList
     if (player.tabnumber !== -1) {
         for (let i = 0; i < subTabList.length; i++) {
@@ -200,7 +200,7 @@ export function tabs(mainTab?: number) {
     if (typeof mainTab === 'undefined') {
         return tabs
     }
-    
+
     return tabs[mainTab];
 }
 
@@ -362,7 +362,7 @@ export const toggleautobuytesseract = () => {
         player.tesseractAutoBuyerToggle = 2;
         DOMCacheGetOrSet("tesseractautobuytoggle").textContent = "Auto Buy: OFF"
         DOMCacheGetOrSet("tesseractautobuytoggle").style.border = "2px solid red"
-        
+
     } else {
         player.tesseractAutoBuyerToggle = 1;
         DOMCacheGetOrSet("tesseractautobuytoggle").textContent = "Auto Buy: ON"
@@ -513,12 +513,12 @@ export const toggleautofortify = () => {
     const el = DOMCacheGetOrSet("toggleautofortify");
     if (player.autoFortifyToggle === false && player.researches[130] == 1) {
         el.textContent = "Auto Fortify: ON"
-        el.style.border = "2px solid green"        
+        el.style.border = "2px solid green"
     } else {
         el.textContent = "Auto Fortify: OFF"
         el.style.border = "2px solid red"
     }
-    
+
     player.autoFortifyToggle = !player.autoFortifyToggle;
 }
 
@@ -526,7 +526,7 @@ export const toggleautoenhance = () => {
     const el = DOMCacheGetOrSet("toggleautoenhance");
     if (player.autoEnhanceToggle === false && player.researches[135] == 1) {
         el.textContent = "Auto Enhance: ON"
-        el.style.border = "2px solid green"        
+        el.style.border = "2px solid green"
     } else {
         el.textContent = "Auto Enhance: OFF"
         el.style.border = "2px solid red"
@@ -604,7 +604,7 @@ const setActiveSettingScreen = async (subtab: string, clickedButton: HTMLButtonE
             });
             const j = await r.json() as ChadContributor[];
 
-            for (const contributor of j) { 
+            for (const contributor of j) {
                 const div = document.createElement('div');
                 div.classList.add('credit');
 
@@ -617,7 +617,7 @@ const setActiveSettingScreen = async (subtab: string, clickedButton: HTMLButtonE
                 a.textContent = contributor.login;
                 a.target = '_blank';
                 a.rel = 'noopener noreferrer nofollow';
-                
+
                 div.appendChild(img);
                 div.appendChild(a);
 
@@ -651,13 +651,13 @@ const setActiveSettingScreen = async (subtab: string, clickedButton: HTMLButtonE
     }
 }
 
-export const toggleShopConfirmation = () => {
+export const toggleShopConfirmation = (value?: boolean) => {
     const el = DOMCacheGetOrSet("toggleConfirmShop")
-    el.textContent = G['shopConfirmation']
-        ? "Shop Confirmations: OFF"
-        : "Shop Confirmations: ON";
+    G['shopConfirmation'] = value ?? !G['shopConfirmation'];
 
-    G['shopConfirmation'] = !G['shopConfirmation'];
+    el.textContent = G['shopConfirmation']
+        ? "Shop Confirmations: ON"
+        : "Shop Confirmations: OFF";
 }
 
 export const toggleBuyMaxShop = () => {
@@ -671,7 +671,7 @@ export const toggleBuyMaxShop = () => {
 
 export const toggleAntMaxBuy = () => {
     const el = DOMCacheGetOrSet("toggleAntMax");
-    el.textContent = player.antMax 
+    el.textContent = player.antMax
         ? "Buy Max: OFF"
         : "Buy Max: ON";
 
@@ -846,7 +846,7 @@ export const toggleCorruptionLevel = (index: number, value: number) => {
             if (i > 1)
                 corruptionDisplay(i)
         }
-        
+
         corruptionDisplay(G['corruptionTrigger'])
         DOMCacheGetOrSet("corruptionCleanseConfirm").style.visibility = "hidden";
 

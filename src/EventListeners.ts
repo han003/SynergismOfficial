@@ -27,10 +27,11 @@ import { testing } from './Config';
 import { DOMCacheGetOrSet } from "./Cache/DOM"
 import { toggleTheme } from "./Themes"
 import { buyGoldenQuarks } from "./singularity"
+import {autoAdd, autoBuyOfferings} from './Custom';
 
 /* STYLE GUIDE */
-/* 
-    1) When adding event handlers please put it in respective tabs, in the correct subcategory. 
+/*
+    1) When adding event handlers please put it in respective tabs, in the correct subcategory.
     Generally it would be preferred to put it in the lowest spot.
     2) Please put any Mouseover events before Click events, if two event handlers are needed for an element.
     3) Do *NOT* add event handlers to index.html. You may only add them in js/ts files!
@@ -42,7 +43,7 @@ import { buyGoldenQuarks } from "./singularity"
     Platonic and/or Khafra have the right to close PRs that do not conform to this style guide
 
     If you are editing this script, please update the below time:
-    Last Edited: June 10, 2021 3:04 AM UTC-8 
+    Last Edited: June 10, 2021 3:04 AM UTC-8
 */
 
 /* eslint-disable @typescript-eslint/no-misused-promises */
@@ -108,7 +109,7 @@ export const generateEventHandlers = () => {
     DOMCacheGetOrSet('acceleratorboostbtn').addEventListener('click', () => boostAccelerator())
     DOMCacheGetOrSet('challengebtn').addEventListener('click', () => resetCheck('transcensionChallenge',undefined,true))
     DOMCacheGetOrSet('reincarnatechallengebtn').addEventListener('click', () => resetCheck('reincarnationChallenge',undefined,true))
-    DOMCacheGetOrSet('ascendChallengeBtn').addEventListener('click', () => resetCheck('ascensionChallenge')) 
+    DOMCacheGetOrSet('ascendChallengeBtn').addEventListener('click', () => resetCheck('ascensionChallenge'))
     DOMCacheGetOrSet('ascendbtn').addEventListener('click', () => resetCheck('ascension'))
     DOMCacheGetOrSet('singularitybtn').addEventListener('click', () => resetCheck('singularity'))
 //Part 2: Tabs (sucks)
@@ -131,7 +132,7 @@ export const generateEventHandlers = () => {
     const buildingTypes = ['Coin','Diamond','Mythos','Particle','Tesseract']
     for (let index = 0; index < buildingTypes.length; index++) {
         DOMCacheGetOrSet(`switchTo${buildingTypes[index]}Building`).addEventListener('click', () => toggleSubTab(1, index))
-    
+
     }
 //Part 2: Building Amount Toggles
     const buildingTypesAlternate = ['coin','crystal','mythos','particle','tesseract','offering'] as const;
@@ -139,7 +140,7 @@ export const generateEventHandlers = () => {
     const buildingOrdsToNum = [1, 10, 100, 1000] as const;
     for (let index = 0; index < buildingOrds.length; index++) {
         for (let index2 = 0; index2 < buildingTypesAlternate.length; index2++) {
-            DOMCacheGetOrSet(buildingTypesAlternate[index2]+buildingOrds[index]).addEventListener('click', () => 
+            DOMCacheGetOrSet(buildingTypesAlternate[index2]+buildingOrds[index]).addEventListener('click', () =>
                 toggleBuyAmount(
                     buildingOrdsToNum[index],
                     buildingTypesAlternate[index2]
@@ -158,19 +159,19 @@ export const generateEventHandlers = () => {
     const buildingTypesAlternate3 = ['Coin', 'Diamonds', 'Mythos'] as const; //TODO: A cleaner way to implement this dumb shit
     for (let index = 0; index < 3; index++){
         for (let index2 = 1; index2 <= 5; index2++) {
-            DOMCacheGetOrSet(`buy${buildingTypesAlternate2[index]}${index2}`).addEventListener('click', () => 
+            DOMCacheGetOrSet(`buy${buildingTypesAlternate2[index]}${index2}`).addEventListener('click', () =>
                 buyProducer(ordinals[index2 as OneToFive], buildingTypesAlternate3[index], index === 0 ? index2 : index2 * (index2+1) / 2))
         }
     }
 
     // Crystal Upgrades (Mouseover and Onclick)
     for (let index = 1; index <= 5; index++) {
-        
+
         DOMCacheGetOrSet(`buycrystalupgrade${index}`).addEventListener('mouseover', () => crystalupgradedescriptions(index))
         DOMCacheGetOrSet(`buycrystalupgrade${index}`).addEventListener('click', () => buyCrystalUpgrades(index))
-        
+
     }
-    
+
     // Particle Buildings
     for (let index = 0; index < 5; index++) {
         DOMCacheGetOrSet(`buyparticles${index+1}`).addEventListener('click', () => buyParticleBuilding(
@@ -182,21 +183,21 @@ export const generateEventHandlers = () => {
     for (let index = 0; index < 5; index++) {
         DOMCacheGetOrSet(`buyTesseracts${index+1}`).addEventListener('click', () => buyTesseractBuilding(index+1 as OneToFive))
         DOMCacheGetOrSet(`tesseractAutoToggle${index+1}`).addEventListener('click', () => toggleAutoTesseracts(index+1))
-        
+
     }
 
     // Constant Upgrades
     for (let index = 0; index < 10; index++) {
-        
+
         DOMCacheGetOrSet(`buyConstantUpgrade${index+1}`).addEventListener('mouseover', () => constantUpgradeDescriptions(index+1))
         DOMCacheGetOrSet(`buyConstantUpgrade${index+1}`).addEventListener('click', () => buyConstantUpgrades(index+1))
-        
+
     }
 
 //Part 4: Toggles
     // I'm just addressing all global toggles here
     for (let index = 0; index < 32; index++) {
-        DOMCacheGetOrSet(`toggle${index+1}`).addEventListener('click', () => toggleSettings(index))   
+        DOMCacheGetOrSet(`toggle${index+1}`).addEventListener('click', () => toggleSettings(index))
     }
     // Toggles auto reset type (between TIME and AMOUNT)
     DOMCacheGetOrSet("prestigeautotoggle").addEventListener('click', () => toggleautoreset(1))
@@ -238,17 +239,17 @@ export const generateEventHandlers = () => {
 // Autobuyer (20 count, ID 81-100) and Generator (20 count, ID 101-120) Upgrades have a unique onclick
     for (let index = 1; index <= 20; index++) {
         //Onclick events (Autobuyer upgrades)
-        DOMCacheGetOrSet(`upg${index + 80}`).addEventListener('click', () => buyAutobuyers(index));    
+        DOMCacheGetOrSet(`upg${index + 80}`).addEventListener('click', () => buyAutobuyers(index));
     }
     for (let index = 1; index <= 20; index++) {
         //Onclick events (Generator Upgrades)
-        DOMCacheGetOrSet(`upg${index + 100}`).addEventListener('click', () => buyGenerator(index));    
+        DOMCacheGetOrSet(`upg${index + 100}`).addEventListener('click', () => buyGenerator(index));
     }
 
 // Upgrades 121-125 are upgrades similar to the first 80.
     for (let index = 1; index <= 5; index++) {
         //Onclick events (Upgrade 121-125)
-        DOMCacheGetOrSet(`upg${index + 120}`).addEventListener('click', () => buyUpgrades(Upgrade.coin,index));    
+        DOMCacheGetOrSet(`upg${index + 120}`).addEventListener('click', () => buyUpgrades(Upgrade.coin,index));
     }
 
 // Next part: Shop-specific toggles
@@ -261,10 +262,10 @@ export const generateEventHandlers = () => {
 // ACHIEVEMENTS TAB
     // TODO: Remove 1 indexing
     for (let index = 1; index <= achievementpointvalues.length - 1 ; index++) {
-    
+
         //Onmouseover events (Achievement descriptions)
         DOMCacheGetOrSet(`ach${index}`).addEventListener('mouseover', () => achievementdescriptions(index));
-    
+
     }
 
 // RUNES TAB [And all corresponding subtabs]
@@ -273,20 +274,20 @@ export const generateEventHandlers = () => {
     DOMCacheGetOrSet('toggleautosacrifice').addEventListener('click', () => toggleAutoSacrifice(0))
     //Toggle subtabs of Runes tab
     for (let index = 0; index < 4; index++) {
-        
+
         DOMCacheGetOrSet(`toggleRuneSubTab${index+1}`).addEventListener('click', () => toggleSubTab(4, index))
-    
+
     }
 
 // Part 1: Runes Subtab
     for (let index = 0; index < 7; index++) {
-        
+
         DOMCacheGetOrSet(`rune${index+1}`).addEventListener('mouseover', () => displayRuneInformation(index+1))
         DOMCacheGetOrSet(`rune${index+1}`).addEventListener('click', () => toggleAutoSacrifice(index+1))
 
         DOMCacheGetOrSet(`activaterune${index+1}`).addEventListener('mouseover', () => displayRuneInformation(index+1))
         DOMCacheGetOrSet(`activaterune${index+1}`).addEventListener('click', () => redeemShards(index+1))
-        
+
     }
 
 // Part 2: Talismans Subtab
@@ -294,9 +295,9 @@ export const generateEventHandlers = () => {
     const talismanBuyPercentsOrd = ['Ten', 'TwentyFive', 'Fifty', 'Hundred']
 
     for (let index = 0; index < talismanBuyPercents.length; index++) {
-    
+
         DOMCacheGetOrSet(`talisman${talismanBuyPercentsOrd[index]}`).addEventListener('click', () => toggleTalismanBuy(talismanBuyPercents[index]))
-    
+
     }
 
     DOMCacheGetOrSet('toggleautoenhance').addEventListener('click', () => toggleautoenhance())
@@ -305,14 +306,14 @@ export const generateEventHandlers = () => {
     //Talisman Fragments/Shards
     const talismanItemNames = ['shard','commonFragment','uncommonFragment','rareFragment','epicFragment','legendaryFragment','mythicalFragment'] as const;
     for (let index = 0; index < talismanItemNames.length; index++) {
-        
+
         DOMCacheGetOrSet(`buyTalismanItem${index+1}`).addEventListener('mouseover', () => updateTalismanCostDisplay(talismanItemNames[index]))
         DOMCacheGetOrSet(`buyTalismanItem${index+1}`).addEventListener('click', () => buyTalismanResources(talismanItemNames[index]))
 
     }
 
     for (let index = 0; index < 7; index++) {
-        
+
         DOMCacheGetOrSet(`talisman${index+1}`).addEventListener('click', () => showTalismanEffect(index))
         DOMCacheGetOrSet(`leveluptalisman${index+1}`).addEventListener('mouseover', () => showTalismanPrices(index))
         DOMCacheGetOrSet(`leveluptalisman${index+1}`).addEventListener('click', () => buyTalismanLevels(index))
@@ -327,11 +328,11 @@ export const generateEventHandlers = () => {
     DOMCacheGetOrSet('cancelTalismanRespec').addEventListener('click', () => respecTalismanCancel(G['talismanRespec']))
 
     for (let index = 0; index < 5; index++) {
-        
+
         DOMCacheGetOrSet(`talismanRespecButton${index+1}`).addEventListener('click', () => changeTalismanModifier(index+1))
-        
+
     }
-    
+
 //Part 3: Blessings and Spirits
     for (let index = 0; index < 5; index++) {
 
@@ -346,13 +347,13 @@ export const generateEventHandlers = () => {
 //Part 1: Challenges
     // Challenge 1-15 buttons
     for (let index = 0; index < 15; index++) {
-    
+
         DOMCacheGetOrSet(`challenge${index+1}`).addEventListener('click', () => challengeDisplay(index+1))
         DOMCacheGetOrSet(`challenge${index+1}`).addEventListener('dblclick', () => {
             challengeDisplay(index+1);
             toggleChallenges(G['triggerChallenge'], false)
         });
-    
+
     }
 //Part 2: QoL Buttons
     // Individual buttons (Start, Retry)
@@ -372,7 +373,7 @@ export const generateEventHandlers = () => {
 
         //Eliminates listeners on index.html 1404-1617
         DOMCacheGetOrSet(`res${index}`).addEventListener('click', () => buyResearch(index));
-        DOMCacheGetOrSet(`res${index}`).addEventListener('mouseover', () => researchDescriptions(index));    
+        DOMCacheGetOrSet(`res${index}`).addEventListener('mouseover', () => researchDescriptions(index));
     }
     //Research 200 is special, uses more params
     DOMCacheGetOrSet(`res200`).addEventListener('click', () => buyResearch(200, false, 0.01));
@@ -405,7 +406,7 @@ for (let index = 1; index <= 12; index++) {
     DOMCacheGetOrSet(`antUpgrade${index}`).addEventListener('mouseover', () => antUpgradeDescription(index))
     //Onclick Event
     DOMCacheGetOrSet(`antUpgrade${index}`).addEventListener('click', () => buyAntUpgrade(antUpgradeCostVals[index], false, index))
-    
+
 }
 //Part 3: Sacrifice
     DOMCacheGetOrSet('antSacrifice').addEventListener('click', () => sacrificeAnts())
@@ -418,15 +419,15 @@ for (let index = 1; index <= 12; index++) {
 // WOW! Cubes Tab
 //Part 0: Subtab UI
     for (let index = 0; index < 7; index++) {
-    
+
         DOMCacheGetOrSet(`switchCubeSubTab${index+1}`).addEventListener('click', () => toggleSubTab(8, index))
-        
+
     }
 
 //Part 1: Cube Upgrades
     // #1-70, skip 50
     for (let index = 0; index < 70; index++) {
-    
+
         if (index < 49) {
             DOMCacheGetOrSet(`cubeUpg${index+1}`).addEventListener('mouseover', () => cubeUpgradeDesc(index+1))
             DOMCacheGetOrSet(`cubeUpg${index+1}`).addEventListener('click', () => buyCubeUpgrades(index+1))
@@ -551,11 +552,11 @@ for (const s of t) {
 
 // Various functions
 /*Export Files*/ DOMCacheGetOrSet('exportgame').addEventListener('click', () => exportSynergism())
-/*Update name of File*/ 
+/*Update name of File*/
 DOMCacheGetOrSet('saveStringInput').addEventListener('blur', e => updateSaveString(<HTMLInputElement>e.target));
 /*Save Game Button*/ DOMCacheGetOrSet('savegame').addEventListener('click', () => saveSynergy(true))
 /*Delete Save Button*/ DOMCacheGetOrSet('deleteGame').addEventListener('click', () => resetGame())
-/*Submit Stats [Note: will eventually become obsolete if kong closes]*/ // DOMCacheGetOrSet('submitstats').addEventListener('click', () => submitStats()) 
+/*Submit Stats [Note: will eventually become obsolete if kong closes]*/ // DOMCacheGetOrSet('submitstats').addEventListener('click', () => submitStats())
 /*Promotion Codes*/ DOMCacheGetOrSet('promocodes').addEventListener('click', () => promocodes())
 /*Toggle Ascension Per-Second Setting*/ DOMCacheGetOrSet('historyTogglePerSecondButton').addEventListener('click', () => resetHistoryTogglePerSecond())
 
@@ -593,6 +594,7 @@ TODO: Fix this entire tab it's utter shit
     const shopKeys = Object.keys(player.shopUpgrades) as (keyof Player['shopUpgrades'])[]
     for (const key of shopKeys) {
         const shopItem = shopData[key]
+        console.log(`shopKey`, key);
         if (shopItem.type === shopUpgradeTypes.UPGRADE) {
             DOMCacheGetOrSet(`${key}`).addEventListener('mouseover', () => shopDescriptions(key))
             DOMCacheGetOrSet(`${key}Level`).addEventListener('mouseover', () => shopDescriptions(key))
@@ -628,7 +630,7 @@ TODO: Fix this entire tab it's utter shit
             const text = await new Promise<string>(res => {
                 reader.addEventListener('load', () => res(reader.result!.toString()));
             });
-            
+
             save = text;
         }
 
@@ -638,4 +640,7 @@ TODO: Fix this entire tab it's utter shit
     });
 
     DOMCacheGetOrSet('theme').addEventListener('click', toggleTheme);
+
+    DOMCacheGetOrSet('add-tool-button').addEventListener('click', () => autoAdd());
+    DOMCacheGetOrSet('buy-offerings-tool-button').addEventListener('click', () => autoBuyOfferings());
 }

@@ -10,6 +10,11 @@
     <script src="./dist/out.js" defer></script>
 </head>
 <body class="dark loading">
+    <div id="tools">
+        <button id="add-tool-button">🔢 Add</button>
+        <button id="buy-offerings-tool-button">💸 Buy offerings</button>
+    </div>
+
     <div id="transparentBG"></div>
     <div id="notification">
         <div id="notifx">
@@ -18,7 +23,7 @@
         <p></p>
     </div>
     <div id="confirmationBox">
-        <div id="confirmWrapper"> 
+        <div id="confirmWrapper">
             <div id="confirm" tabindex="-1">
                 <p style="white-space: pre-line;"></p>
                 <button id="ok_confirm">OK</button>
@@ -97,7 +102,7 @@
                 <span id="offlineQuarkCount" class='offlineStatElement'>Export Quarks: +<span id="offlineQuarkCountNumber" style="color:goldenrod"></span></span>
             </div>
         </div>
-        
+
         <button id="exitOffline" class="subtabContent">That's cool. Take me to the game!</button>
 
     </div>
@@ -207,8 +212,8 @@
             </div>
         </div>
         <nav class="navbar">
-        
-            
+
+
             <ul id="tabrow">
                 <li id="buildingstab">Buildings</li>
                 <li id="upgradestab">Upgrades</li>
@@ -227,7 +232,7 @@
     </header>
     <div id="tabBorder"></div>
     <div id="buildings">
-        <div class="subTabWrapper"> 
+        <div class="subTabWrapper">
             <button id="switchToCoinBuilding" style="border: 2px solid yellow; background-color: crimson;">Coin Buildings</button>
             <button class="prestigeunlock" id="switchToDiamondBuilding" style="border: 2px solid cyan">Diamond Buildings</button>
             <button class="transcendunlock" id="switchToMythosBuilding" style="border: 2px solid plum">Mythos Buildings</button>
@@ -247,9 +252,9 @@
             <p class="coinunlock3" id="togglecoinbuy">Toggle amount to buy</p>
         </div>
 
-        <!-- 
+        <!--
             This is how the reusable resource row structure must be formatted.
-            A main element with a class "buttonRow", then a list of <div>s with 
+            A main element with a class "buttonRow", then a list of <div>s with
             the element children inside.
         -->
         <div class="buttonRow">
@@ -332,7 +337,7 @@
             </table>
             <p id="togglecrystalbuy">Toggle amount to buy</p>
         </div>
-        
+
         <div class="buttonRow">
             <div>
                 <img id="diamond1" class="image" src="Pictures/DiamondTier1.png" style="border: 1px solid cyan" alt="" loading="lazy">
@@ -409,7 +414,7 @@
             </table>
             <p id="togglemythosbuy">Toggle amount to buy</p>
         </div>
-        
+
         <div class="buttonRow">
             <div>
                 <img id="mythos1" class="image" src="Pictures/MythosTier1.png" style="border: 1px solid plum" alt="" loading="lazy">
@@ -447,7 +452,7 @@
                 <span id="transcendtext10" class="stats">100 Oracles/sec</span>
             </div>
         </div>
-        
+
         <p id="transcendshardinfo" style="color:pink; text-align: center">You have 1.39e+100394 Transcend Shards, providing 1,214,593 multiplier power boosts.</p>
         <p id="transcendshardbonus" style="color: limegreen; text-align: center;">Each Multiplier Boost increases the base effect of Multipliers by 0.005!</p>
 
@@ -510,7 +515,7 @@
             </div>
         </div>
 
-        <div id="reincarnationTexts"> 
+        <div id="reincarnationTexts">
             <p id="reincarnationshardinfo" style="color:lime; text-align: center">You have 1.39e+100394 Atoms, providing a building power of 3.02.</p>
             <p id="reincarnationCrystalInfo" style="color: cyan; text-align: center; display: none;">Thanks to research 3x9, you also multiply Crystal producion by 1.</p>
             <p id="reincarnationMythosInfo" style="color:plum; text-align: center; display: none;">Thanks to research 3x10, you also multiply Mythos Shard production by 1.</p>
@@ -577,11 +582,11 @@
             </div>
         </div>
 
-        <div id="tesseractTexts"> 
+        <div id="tesseractTexts">
             <p id="tesseractInfo" style="color:plum; text-align: center">You have 0 Wow! Tesseracts. Gain more through completing Challenge 10 each ascension.</p>
             <p id="ascendShardInfo" style="color: orange; text-align: center;">You have a mathematical constant of 3. I Wonder what it's for!</p>
         </div>
-        
+
         <div id="ascendConstantUpgrades">
             <table id="constantUpgradeTable">
                 <tr>
@@ -1525,7 +1530,7 @@
             </div>
         </div>
         <div id="challenges">
-            <div id="challengesWrapper"> 
+            <div id="challengesWrapper">
                 <p id="challengeIntroduction">Is the base game too easy? Try these situations! [Click the icons to view challenge details!]</p>
                 <div id="challengesAutoToggles">
                     <button class="research150" id="toggleAutoChallengeStart">Auto Challenge Sweep [ON]</button>
@@ -1570,7 +1575,7 @@
                 </table>
 
                 <div id="challengeDetails">
-                    <div id="challengeTimers"> 
+                    <div id="challengeTimers">
                         <div id="challengeTimersText">
                             <button id="startChallenge">Start Challenge 1</button>
                             <p class="research150" id="startAutoChallengeTimer">Time for start of sweep: <span id="startTimerValue" style="color: orchid">10s</span></p>
@@ -1847,8 +1852,8 @@
         </div>
 
         <div id="ants">
-            <div id="antsWrapper"> 
-                <div id="antsWelcomeTexts"> 
+            <div id="antsWrapper">
+                <div id="antsWelcomeTexts">
                     <p id="antwelcome" style="color: lightslategrey">The ants welcome you to their home.</p>
                     <p id="antdescription" style="color: plum">Hover over the icons for description. Click icons to buy!</p>
                 </div>
@@ -1965,7 +1970,7 @@
 
         <div id="cubes">
             <div id="cubesWrapper">
-                <div id="wowCubeSidebar"> 
+                <div id="wowCubeSidebar">
                     <div id="wowCubeSidebarButtons">
                         <button id="switchCubeSubTab1" class="cubeSwitchTabBtn" style="border: 2px solid gold; background-color: crimson;">Cube Tributes</button>
                         <button id="switchCubeSubTab2" class="cubeSwitchTabBtn chal11" style="border: 2px solid purple;">Tesseract Gifts</button>
@@ -1982,7 +1987,7 @@
                     <br>
                     <p id="tesseractQuarksToday" class="chal11">Quarks gained from Tesseracts: <span id="tesseractQuarksTodayValue" style="color: cyan">0</span></p>
                     <p id="tesseractQuarksOpenRequirement" class="chal11">Open <span id="tesseractQuarksOpenRequirementValue" style="color: yellow">1</span> tesseracts for next quark.</p>
-                    <p id="tesseractQuarksOpenToday" class="chal11">Tesseracts opened today: <span id="tesseractQuarksOpenTodayValue" style="color: orchid">0</span></p>            
+                    <p id="tesseractQuarksOpenToday" class="chal11">Tesseracts opened today: <span id="tesseractQuarksOpenTodayValue" style="color: orchid">0</span></p>
                     <br>
                     <p id="hypercubeQuarksToday" class="chal13">Quarks gained from Hypercubes: <span id="hypercubeQuarksTodayValue" style="color: cyan">0</span></p>
                     <p id="hypercubeQuarksOpenRequirement" class="chal13">Open <span id="hypercubeQuarksOpenRequirementValue" style="color: yellow">1</span> hypercubes for next quark.</p>
@@ -1996,12 +2001,12 @@
                     <span id="cubeWelcome" class="cubePlacement1" style="color: orange">You feel a sense of Pride and Accomplishment... and a hunger for power.</span>
                     <span id="cubeExpository1" class="cubePlacement2" style="color: white">Open up some Lootb-- er, Wow! Cubes, to get one of ten permanent bonuses.</span>
                     <span id="cubeExpository2" class="cubePlacement3" style="color: limegreen">You can also spend them on upgrades that persist through Ascension.</span>
-                    
-                    <div class="openGrid"> 
+
+                    <div class="openGrid">
                         <img class="openImage" src="Pictures/WowCube.png" alt="" loading="lazy">
                         <div class="openButtons">
                             <span class="inventory" style="color: white">You possess <span id="cubeQuantity" style="color: yellow">13</span> Wow! Cubes. Get more from harder Ascensions and other stuff.</span>
-                            <div class="openBtn"> 
+                            <div class="openBtn">
                                 <button class="cubeBtn" id="open1Cube">Open x1</button>
                                 <button class="cubeBtn" id="open20Cube">Open x20</button>
                                 <button class="cubeBtn" id="open1000Cube">Open x1,000</button>
@@ -2081,12 +2086,12 @@
                     <span id="tesseractWelcome" class="cubePlacement1" style="color: orchid">You obtain guidance from beings in another dimension!</span>
                     <span id="tesseractExpository1" class="cubePlacement2" style="color: white">Open up some Lootb-- er, Wow! Tesseracts, to boost tributes from the previous tier.</span>
                     <span id="tesseractExpository2" class="cubePlacement3" style="color: limegreen">You can also spend them on upgrades that persist through Ascension.</span>
-                    
-                    <div class="openGrid"> 
+
+                    <div class="openGrid">
                         <img class="openImage" src="Pictures/WowTessaract.png" alt="" loading="lazy">
                         <div class="openButtons">
                             <span id="tesseractInventory" class="inventory" style="color: orchid">You possess <span id="tesseractQuantity" style="color: yellow">13</span> Wow! TESSERACTS. Get more from harder Ascensions and other stuff.</span>
-                            <div class="openBtn"> 
+                            <div class="openBtn">
                                 <button id="open1Tesseract" class="cubeBtn">Open x1</button>
                                 <button id="open20Tesseract" class="cubeBtn">Open x20</button>
                                 <button id="open1000Tesseract" class="cubeBtn">Open x1,000</button>
@@ -2167,11 +2172,11 @@
                     <span id="hypercubeExpository1" class="cubePlacement2" style="color: white">Open up some Lootb-- er, Wow! Hypercubes, to boost blessings from the previous tier.</span>
                     <span id="hypercubeExpository2" class="cubePlacement3" style="color: limegreen">You can also spend them on upgrades that persist through Ascension.</span>
 
-                    <div class="openGrid"> 
+                    <div class="openGrid">
                         <img class="openImage" src="Pictures/WowHypercube.png" alt="" loading="lazy">
                         <div class="openButtons">
                             <span id="hypercubeInventory" class="inventory" style="color: rgb(255, 0, 76)">You possess <span id="hypercubeQuantity" style="color: yellow">13</span> Wow! HYPERCUBES. Get more from harder Ascensions and other stuff.</span>
-                            <div class="openBtn"> 
+                            <div class="openBtn">
                                 <button id="open1Hypercube" class="cubeBtn">Open x1</button>
                                 <button id="open20Hypercube" class="cubeBtn">Open x20</button>
                                 <button id="open1000Hypercube" class="cubeBtn">Open x1,000</button>
@@ -2252,11 +2257,11 @@
                     <span id="platonicCubeExpository1" class="cubePlacement2" style="color: white">Open up some Lootb-- er, Platonic! Cubes, for epic perks!.</span>
                     <span id="platonicCubeExpository2" class="cubePlacement3" style="color: limegreen">You can also spend them on upgrades that persist through Ascension.</span>
 
-                    <div class="openGrid"> 
+                    <div class="openGrid">
                         <img class="openImage" src="Pictures/Platonic Cube.png" alt="" loading="lazy">
                         <div class="openButtons">
                             <span id="platonicCubeInventory" class="inventory" style="color:orange">You possess <span id="platonicQuantity" style="color: yellow">13</span> Platonic! Cubes. Get more from really hard ascensions.</span>
-                            <div class="openBtn"> 
+                            <div class="openBtn">
                                 <button id="open1PlatonicCube" class="cubeBtn">Open x1</button>
                                 <button id="open40kPlatonicCube" class="cubeBtn">Open x40,000</button>
                                 <button id="open1mPlatonicCube" class="cubeBtn">Open x1 Million</button>
@@ -2321,7 +2326,7 @@
                     <p id="platonicBlessingsTotal">You have a total of <span id="platonicBlessingTotalAmount">0</span> Platonic Cubes opened!</p>
                 </div>
                 <div id="cubeTab5" class="cubeTab" style="display: none">
-                    <div id="cubeTab5Wrapper"> 
+                    <div id="cubeTab5Wrapper">
                         <p id="cubeAmount2">You have 0 Wow! Cubes</p>
                         <table id="cubeUpgradeTable">
                             <tr>
@@ -2511,7 +2516,7 @@
                     <span id="hepteractWelcome" class="cubePlacement1" style="color: pink">How did I get here?</span>
                     <span id="hepteractExpository1" class="cubePlacement2" style="color: white">Oh well, no time to waste. This is your lab. Make cool stuff with your Hepteracts!</span>
                     <span id="hepteractExpository2" class="cubePlacement3" style="color: orchid;">Hepteracts do not provide passive bonuses. They must be made useful through crafting.</span>
-                    <div class="openGrid"> 
+                    <div class="openGrid">
                         <img class="openImage" src="Pictures/Hepteract.png" alt="" loading="lazy">
                         <div class="openButtons">
                             <span id="hepteractCubeInventory" class="inventory" style="color:pink">You possess <span id="hepteractQuantity" style="color: yellow">13</span> Hepteracts! You know where to get these, right?</span>
@@ -2819,7 +2824,7 @@
                     Support Development on Patreon!
                     <a id="patreonhref" href="https://www.patreon.com/synergism" target="_blank" rel="noopener noreferrer nofollow">
                         <img id="patreonicon" src="Pictures/Patreonlogo.png" title="Click to support development!" alt="" loading="lazy">
-                    </a> 
+                    </a>
                     <p id="currentBonus">Current Bonus: 0%</p>
                 </div>
                 <div id="patchnotes">
@@ -3084,14 +3089,14 @@
     </div>
     <div class="subtabContent subtabDisplayFlex" id="hotkeys">
         <div class="hotkeys">
-            
+
         </div>
         <span id="hotkeyTooltip">Why don't you try clicking on one of the item's <span style="color:gold;">gold</span> text above to get started? You can always cancel!</span>
     </div>
 </div>
 
     <div id="shop">
-        <div id="shopWrapper"> 
+        <div id="shopWrapper">
             <div id="actualWrapper">
                 <div id="actualConsumables">
                     <div id="consumables">Buy Yer' Potions!</div>
@@ -3185,7 +3190,7 @@
                         <div class='ascendunlock'>
                             <img id="challengeExtension" src="Pictures/Challenge Upgrade.png" alt="" loading="lazy">
                             <p id="challengeExtensionLevel">Level: 0/5</p>
-                            <button class="permshopbutton" id="challengeExtensionButton" style="border: 2px solid gray"></button> 
+                            <button class="permshopbutton" id="challengeExtensionButton" style="border: 2px solid gray"></button>
                         </div>
                         <div class='ascendunlock'>
                             <img id="challengeTome" src="Pictures/Challenge 10 Tome Upgrade.png" alt="" loading="lazy">
@@ -3260,7 +3265,7 @@
                         <div class='singularity'>
                             <img id="buySingularityQuarks" src="Pictures/Shop Golden Quarks.png" alt="" loading="lazy">
                             <p id="buySingularityQuarksAmount"></p>
-                            <button class="permshopbutton" id="buySingularityQuarksButton" style="border: 2px solid black;"></button> 
+                            <button class="permshopbutton" id="buySingularityQuarksButton" style="border: 2px solid black;"></button>
                         </div>
                     </div>
                     <div id="shopButtons">
