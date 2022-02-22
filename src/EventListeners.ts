@@ -27,7 +27,7 @@ import { testing } from './Config';
 import { DOMCacheGetOrSet } from "./Cache/DOM"
 import { toggleTheme } from "./Themes"
 import { buyGoldenQuarks } from "./singularity"
-import {autoAdd, autoBuyOfferings} from './Custom';
+import {autoAdd, autoBuyObtainium, autoBuyOfferings, autoDaily} from './Custom';
 
 /* STYLE GUIDE */
 /*
@@ -643,4 +643,6 @@ TODO: Fix this entire tab it's utter shit
 
     DOMCacheGetOrSet('add-tool-button').addEventListener('click', () => autoAdd());
     DOMCacheGetOrSet('buy-offerings-tool-button').addEventListener('click', () => autoBuyOfferings());
+    DOMCacheGetOrSet('buy-obtainium-tool-button').addEventListener('click', () => autoBuyObtainium());
+    DOMCacheGetOrSet('daily-tool-button').addEventListener('click', () => autoDaily());
 }

@@ -42,12 +42,14 @@ body.dark {
 }
 
 #tools button {
-    background: rgb(0 179 0 / 70%);
+    background: rgb(0 179 0 / 60%);
+    color: rgb(205 248 205);
     border-radius: 4px;
-    padding: 4px 12px;
+    padding: 2px 12px;
     box-shadow: 0 3px 3px -2px rgb(0 0 0 / 20%), 0 3px 4px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%);
     min-width: 80px;
     text-align: left;
+    border: 2px solid rgb(0 179 0 / 80%);
 }
 
 #tools button:hover {
@@ -173,12 +175,12 @@ button:focus {
 }
 
 .slide-in {
-    animation: slide-in 1000ms;
+    animation: slide-in 500ms;
     animation-fill-mode: forwards;
 }
 
 .slide-out {
-    animation: slide-out 1000ms;
+    animation: slide-out 500ms;
     animation-fill-mode: forwards;
 }
 

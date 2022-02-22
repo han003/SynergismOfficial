@@ -229,7 +229,7 @@ export const shopData: Record<keyof Player['shopUpgrades'], IShopData> = {
         type: shopUpgradeTypes.UPGRADE,
         refundable: false,
         refundMinimumLevel: 0,
-        description: `The PL-AT Ω is infused with some Unobtainium, which is epic! But furthermore, it reduces the variance of Quarks by code 'add' by 10% per level, which makes you more likely to get the maximum multiplier. It also has the ability to give +60 seconds to Ascension Timer per level using that code.` 
+        description: `The PL-AT Ω is infused with some Unobtainium, which is epic! But furthermore, it reduces the variance of Quarks by code 'add' by 10% per level, which makes you more likely to get the maximum multiplier. It also has the ability to give +60 seconds to Ascension Timer per level using that code.`
     },
     constantEX: {
         price: 100000,
@@ -298,7 +298,7 @@ export const shopData: Record<keyof Player['shopUpgrades'], IShopData> = {
 
 //Names of shop upgrades || Top row indicates potions, and all other upgrades are labeled in order.
 //If you are adding more upgrades please make sure the order of labelled upgrades is correct!
-type ShopUpgradeNames = 'offeringPotion' | 'obtainiumPotion' |
+export type ShopUpgradeNames = 'offeringPotion' | 'obtainiumPotion' |
                         'offeringEX' | 'offeringAuto' | 'obtainiumEX' | 'obtainiumAuto' | 'instantChallenge' |
                         'antSpeed' | 'cashGrab' | 'shopTalisman' | 'seasonPass' | 'challengeExtension' |
                         'challengeTome' | 'challengeTome2' | 'cubeToQuark' | 'tesseractToQuark' | 'hypercubeToQuark' |
@@ -462,16 +462,28 @@ export const friendlyShopName = (input: ShopUpgradeNames) => {
 
 }
 
+export function canBuy(input: ShopUpgradeNames) {
+    return !isMaxLevel(input) && canAfford(input);
+}
+
+export function isMaxLevel(input: ShopUpgradeNames) {
+    return player.shopUpgrades[input] === shopData[input].maxLevel;
+}
+
+export function canAfford(input: ShopUpgradeNames) {
+    return Number(player.worlds) >= getShopCosts(input);
+}
+
 export const buyShopUpgrades = async (input: ShopUpgradeNames) => {
     let p = true;
-    const maxLevel = player.shopUpgrades[input] === shopData[input].maxLevel;
-    const canAfford = Number(player.worlds) >= getShopCosts(input);
+    const maxLevel = isMaxLevel(input);
+    const affordable = canAfford(input);
 
     if (G['shopConfirmation'] || !shopData[input].refundable) {
         if (maxLevel) {
             await Alert("You can't purchase " + friendlyShopName(input) + " because you already have the max level!")
         }
-        else if (!canAfford) {
+        else if (!affordable) {
             await Alert("You can't purchase " + friendlyShopName(input) + " because you don't have enough Quarks!")
         }
         else {
@@ -491,7 +503,7 @@ export const buyShopUpgrades = async (input: ShopUpgradeNames) => {
                 player.shopUpgrades[input] += 1
             }
         } else {
-            if (canAfford && !maxLevel) {
+            if (affordable && !maxLevel) {
                 player.worlds.sub(getShopCosts(input));
                 player.shopUpgrades[input] += 1
             }
@@ -500,7 +512,7 @@ export const buyShopUpgrades = async (input: ShopUpgradeNames) => {
     revealStuff();
 }
 
-export const useConsumable = async (input: ShopUpgradeNames) => {    
+export const useConsumable = async (input: ShopUpgradeNames) => {
     const p = G['shopConfirmation']
         ? await Confirm('Would you like to use this potion?')
         : true;
@@ -541,7 +553,7 @@ export const resetShopUpgrades = async (ignoreBoolean = false) => {
                 // Determines how many quarks one would not be refunded, based on minimum refund level
                 const doNotRefund = shopData[key].price * shopData[key].refundMinimumLevel +
                                 shopData[key].priceIncrease * (shopData[key].refundMinimumLevel) * (shopData[key].refundMinimumLevel - 1) / 2;
-                
+
                 //Refunds Quarks based on the shop level and price vals
                 player.worlds.add(
                     shopData[key].price * player.shopUpgrades[key] +
@@ -566,9 +578,9 @@ export const resetShopUpgrades = async (ignoreBoolean = false) => {
 export const getQuarkInvestment = (upgrade: ShopUpgradeNames) => {
     if (!(upgrade in shopData) || !(upgrade in player.shopUpgrades)) return 0;
 
-    const val = shopData[upgrade].price * player.shopUpgrades[upgrade] + 
+    const val = shopData[upgrade].price * player.shopUpgrades[upgrade] +
                 shopData[upgrade].priceIncrease * (player.shopUpgrades[upgrade] - 1) * (player.shopUpgrades[upgrade]) / 2
     console.log("gained from " + upgrade + ":" + format(val, 0, true))
-    
+
     return val;
 }
