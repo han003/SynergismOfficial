@@ -2845,6 +2845,14 @@ img.small {
     margin-bottom: 1px;
 }
 
+.corrClear {
+    border: 1px solid red;
+    padding: 2px 5px;
+    transition-duration: 0.15s;
+    width: 100%;
+    margin-bottom: 1px;
+}
+
 .corrSave:hover,
 .corrLoad:hover {
     background-color: #333;
