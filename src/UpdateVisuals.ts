@@ -21,7 +21,7 @@ export const visualUpdateBuildings = () => {
         console.log("buildings update happened not in buildings")
         return;
     }
-    
+
     //When you're in Building --> Coin, update these.
     if (G['buildingSubTab'] === "coin") {
         // For the display of Coin Buildings
@@ -127,11 +127,11 @@ export const visualUpdateBuildings = () => {
             const ith = G['ordinals'][i - 1 as ZeroToFour];
             const place = G[`produce${upper[i-1]}` as const];
 
-            DOMCacheGetOrSet(`reincarnationtext${i}`).textContent = 
+            DOMCacheGetOrSet(`reincarnationtext${i}`).textContent =
                 `${names[i-1]}: ${format(player[`${ith}OwnedParticles` as const], 0, true)} [+${format(player[`${ith}GeneratedParticles` as const], 2)}]`;
-            DOMCacheGetOrSet(`reincarnationtext${i+5}`).textContent = 
+            DOMCacheGetOrSet(`reincarnationtext${i+5}`).textContent =
                 `${perSecNames[i-1]}: ${format((place).times(40), 2)}`;
-            DOMCacheGetOrSet(`buyparticles${i}`).textContent = 
+            DOMCacheGetOrSet(`buyparticles${i}`).textContent =
                 `Cost: ${format(player[`${ith}CostParticles` as const], 2)} Particles`;
         }
 
@@ -153,7 +153,7 @@ export const visualUpdateBuildings = () => {
         for (let i = 1; i <= 5; i++) {
             const ascendBuildingI = `ascendBuilding${i as 1|2|3|4|5}` as const;
             DOMCacheGetOrSet("ascendText" + i).textContent = names[i] + ": " + format(player[ascendBuildingI]['owned'], 0, true) + " [+" + format(player[ascendBuildingI]['generated'], 2) + "]"
-            DOMCacheGetOrSet("ascendText" + (5 + i)).textContent = 
+            DOMCacheGetOrSet("ascendText" + (5 + i)).textContent =
                 perSecNames[i] + ": " + format(((G['ascendBuildingProduction'] as { [key: string]: Decimal })[G['ordinals'][i - 1]]), 2)
             DOMCacheGetOrSet("buyTesseracts" + i).textContent = "Cost: " + format(player[ascendBuildingI]['cost'], 0) + " Tesseracts"
         }
@@ -308,13 +308,13 @@ export const visualUpdateCubes = () => {
         DOMCacheGetOrSet(`${name}QuarksTodayValue`).textContent = format(player[`${name}QuarkDaily` as const]);
         DOMCacheGetOrSet(`${name}QuarksOpenTodayValue`).textContent = format(player[`${name}OpenedDaily` as const]);
         DOMCacheGetOrSet(`${name}QuarksOpenRequirementValue`).textContent = format(Math.max(1, toNextQuark[name]))
-        
+
         // Change color of requirement text if 1 or less required :D
         DOMCacheGetOrSet(`${name}QuarksOpenRequirement`).style.color = (Math.max(1, toNextQuark[name]) === 1)? 'gold': 'white'
         if (DOMCacheGetOrSet(`${name}QuarksOpenRequirementValue`).style.color !== 'gold')
             DOMCacheGetOrSet(`${name}QuarksOpenRequirementValue`).style.color === 'gold'
     }
-    
+
     let accuracy;
     switch (player.subtabNumber) {
         case 0: {
@@ -483,11 +483,11 @@ export const visualUpdateSettings = () => {
     const maxExportQuarks = quarkData.capacity
     const patreonLOL = 1 + player.worlds.BONUS/100
     DOMCacheGetOrSet("quarktimerdisplay").textContent = format((3600 / (quarkData.perHour) - (player.quarkstimer % (3600.00001 / (quarkData.perHour)))), 2) + "s until +" + format(patreonLOL, 2, true) + " export Quark"
-    DOMCacheGetOrSet("quarktimeramount").textContent = 
+    DOMCacheGetOrSet("quarktimeramount").textContent =
         `Quarks on export: ${format(Math.floor(onExportQuarks * patreonLOL))} [Max ${format(Math.floor(maxExportQuarks * patreonLOL))}]`;
 
     DOMCacheGetOrSet("goldenQuarkTimerDisplay").textContent = format(3600 - (player.quarkstimer % 3600.00001)) + "s until +" + format(patreonLOL, 2, true) + " export Golden Quark"
-    DOMCacheGetOrSet("goldenQuarkTimerAmount").textContent = 
+    DOMCacheGetOrSet("goldenQuarkTimerAmount").textContent =
         `Golden Quarks on export: ${format(Math.floor(player.quarkstimer / 3600))} [Max ${format(Math.floor(quarkData.maxTime / 3600))}]`
 
 }
@@ -504,7 +504,7 @@ export const visualUpdateShop = () => {
     for (const key of keys) {
         // Create a copy of shopItem instead of accessing many times
         const shopItem = shopData[key]
-        
+
         // Ignore all consumables, to be handled above, since they're different.
         if (shopItem.type === shopUpgradeTypes.UPGRADE) {
             // Case: If max level is 1, then it can be considered a boolean "bought" or "not bought" item
@@ -520,17 +520,18 @@ export const visualUpdateShop = () => {
 
             const buyAmount = G['shopBuyMax']? Math.max(shopData[key].maxLevel - player.shopUpgrades[key], 1): 1;
             const metaData:IMultiBuy = calculateSummationNonLinear(player.shopUpgrades[key], shopData[key].price, +player.worlds, shopData[key].priceIncrease / shopData[key].price, buyAmount)
-            
-            if (!G['shopBuyMax']) {
-                player.shopUpgrades[key] === shopItem.maxLevel ?
-                    DOMCacheGetOrSet(`${key}Button`).textContent = "Maxed!": 
+
+            if (player.shopUpgrades[key] === shopItem.maxLevel) {
+                DOMCacheGetOrSet(`${key}Button`).textContent = "Maxed!";
+                DOMCacheGetOrSet(`${key}Button`).style.display = "none";
+            } else {
+                if (!G['shopBuyMax']) {
                     DOMCacheGetOrSet(`${key}Button`).textContent = "Upgrade for " + format(getShopCosts(key)) + " Quarks";
-            }
-            
-            else {
-                player.shopUpgrades[key] === shopItem.maxLevel ?
-                    DOMCacheGetOrSet(`${key}Button`).textContent = "Maxed!": 
+                }
+
+                else {
                     DOMCacheGetOrSet(`${key}Button`).textContent = "Upgrade +"+format(metaData.levelCanBuy - player.shopUpgrades[key],0,true)+ " for " + format(metaData.cost,0,true) + " Quarks";
+                }
             }
         }
     }
