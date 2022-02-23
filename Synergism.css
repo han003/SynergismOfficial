@@ -39,6 +39,7 @@ body.dark {
     display: grid;
     grid-template-columns: 1fr;
     grid-row-gap: 8px;
+    z-index: 5;
 }
 
 #tools button {

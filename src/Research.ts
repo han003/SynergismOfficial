@@ -52,7 +52,7 @@ export const updateAutoResearch = (index: number, auto: boolean) => {
         DOMCacheGetOrSet(`res${player.autoResearch || 1}`).classList.remove("researchRoomba");
         DOMCacheGetOrSet(`res${index}`).classList.add("researchRoomba");
         player.autoResearch = index;
-        
+
         // Research is maxed
         if (player.researches[index] >= G['researchMaxLevels'][index])
             updateClassList(`res${player.autoResearch}`, ["researchMaxed"], ["researchPurchased", "researchUnpurchased"]);
@@ -62,7 +62,7 @@ export const updateAutoResearch = (index: number, auto: boolean) => {
         // Research has not been purchased yet
         else
             updateClassList(`res${player.autoResearch}`, ["researchUnpurchased"], ["researchPurchased", "researchMaxed"]);
-        
+
         return
     }
     else
@@ -71,10 +71,10 @@ export const updateAutoResearch = (index: number, auto: boolean) => {
 
 /**
  * Attempts to buy the research of the index selected. This is hopefully an improvement over buyResearch. Fuck
- * @param index 
- * @param auto 
- * @param linGrowth 
- * @returns 
+ * @param index
+ * @param auto
+ * @param linGrowth
+ * @returns
  */
 export const buyResearch = (index: number, auto = false, linGrowth = 0): boolean => {
 
@@ -87,7 +87,7 @@ export const buyResearch = (index: number, auto = false, linGrowth = 0): boolean
         player.researches[index] = metaData.levelCanBuy;
         player.researchPoints -= metaData.cost;
         // Quick check after upgrading for max. This is to update any automation regardless of auto state
-        if (isResearchMaxed(index)) 
+        if (isResearchMaxed(index))
             DOMCacheGetOrSet(`res${player.autoResearch || 1}`).classList.remove("researchRoomba");
 
         // Update the progress description
@@ -102,7 +102,7 @@ export const buyResearch = (index: number, auto = false, linGrowth = 0): boolean
         player.unlocks.rrow4 ||= true;
         if (index >= 47 && index <= 50)
             revealStuff();
-        
+
         // Update ants and runes.
         calculateRuneLevels();
         calculateAnts();

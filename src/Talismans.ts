@@ -332,6 +332,8 @@ export const showRespecInformation = (i: number) => {
 }
 
 export const changeTalismanModifier = (i: number) => {
+    console.log(`i`, i);
+
     const runeName = [null, "Speed Rune", "Duplication Rune", "Prism Rune", "Thrift Rune", "SI Rune"];
     const el = DOMCacheGetOrSet("talismanRespecButton" + i);
     if (G['mirrorTalismanStats'][i] === 1) {

@@ -27,7 +27,7 @@ import { testing } from './Config';
 import { DOMCacheGetOrSet } from "./Cache/DOM"
 import { toggleTheme } from "./Themes"
 import { buyGoldenQuarks } from "./singularity"
-import {autoAdd, autoBuyObtainium, autoBuyOfferings, autoDaily} from './Custom';
+import {autoAdd, autoBuyObtainium, autoBuyOfferings, autoDaily, talismanRespec} from './Custom';
 
 /* STYLE GUIDE */
 /*
@@ -594,7 +594,6 @@ TODO: Fix this entire tab it's utter shit
     const shopKeys = Object.keys(player.shopUpgrades) as (keyof Player['shopUpgrades'])[]
     for (const key of shopKeys) {
         const shopItem = shopData[key]
-        console.log(`shopKey`, key);
         if (shopItem.type === shopUpgradeTypes.UPGRADE) {
             DOMCacheGetOrSet(`${key}`).addEventListener('mouseover', () => shopDescriptions(key))
             DOMCacheGetOrSet(`${key}Level`).addEventListener('mouseover', () => shopDescriptions(key))
@@ -645,4 +644,7 @@ TODO: Fix this entire tab it's utter shit
     DOMCacheGetOrSet('buy-offerings-tool-button').addEventListener('click', () => autoBuyOfferings());
     DOMCacheGetOrSet('buy-obtainium-tool-button').addEventListener('click', () => autoBuyObtainium());
     DOMCacheGetOrSet('daily-tool-button').addEventListener('click', () => autoDaily());
+    DOMCacheGetOrSet('respec-124-tool-button').addEventListener('click', () => talismanRespec([1,2,4]));
+    DOMCacheGetOrSet('respec-345-tool-button').addEventListener('click', () => talismanRespec([3,4,5]));
+    DOMCacheGetOrSet('respec-245-tool-button').addEventListener('click', () => talismanRespec([2,4,5]));
 }
