@@ -18,6 +18,7 @@ html {
 body {
     transform-origin: 0 0;
     overflow-x: hidden;
+    overflow-y: scroll;
     color: white;
     margin: 0;
     box-sizing: border-box;
@@ -29,6 +30,31 @@ body.loading {
 
 body.dark {
     background-color: #111;
+}
+
+#tools {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-row-gap: 8px;
+    z-index: 5;
+}
+
+#tools button {
+    background: rgb(0 179 0 / 60%);
+    color: rgb(205 248 205);
+    border-radius: 4px;
+    padding: 2px 12px;
+    box-shadow: 0 3px 3px -2px rgb(0 0 0 / 20%), 0 3px 4px 0 rgb(0 0 0 / 14%), 0 1px 8px 0 rgb(0 0 0 / 12%);
+    min-width: 80px;
+    text-align: left;
+    border: 2px solid rgb(0 179 0 / 80%);
+}
+
+#tools button:hover {
+    cursor: pointer;
 }
 
 body.light {
@@ -150,12 +176,12 @@ button:focus {
 }
 
 .slide-in {
-    animation: slide-in 1000ms;
+    animation: slide-in 500ms;
     animation-fill-mode: forwards;
 }
 
 .slide-out {
-    animation: slide-out 1000ms;
+    animation: slide-out 500ms;
     animation-fill-mode: forwards;
 }
 
@@ -2813,6 +2839,14 @@ img.small {
 
 .corrLoad {
     border: 1px solid #5b5ddc;
+    padding: 2px 5px;
+    transition-duration: 0.15s;
+    width: 100%;
+    margin-bottom: 1px;
+}
+
+.corrClear {
+    border: 1px solid red;
     padding: 2px 5px;
     transition-duration: 0.15s;
     width: 100%;
